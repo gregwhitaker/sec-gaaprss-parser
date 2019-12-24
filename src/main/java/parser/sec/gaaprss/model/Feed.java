@@ -1,5 +1,6 @@
 package parser.sec.gaaprss.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class Feed {
     private String language;
     private Date publishDate;
     private Date lastBuildDate;
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
 
     public String getTitle() {
         return title;

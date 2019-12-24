@@ -7,6 +7,7 @@ public class Item {
     private String title;
     private String link;
     private String guid;
+    private Enclosure enclosure;
     private String description;
     private Date publishDate;
     private XbrlFiling xbrlFiling;
@@ -33,6 +34,14 @@ public class Item {
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public Enclosure getEnclosure() {
+        return enclosure;
+    }
+
+    public void setEnclosure(Enclosure enclosure) {
+        this.enclosure = enclosure;
     }
 
     public String getDescription() {

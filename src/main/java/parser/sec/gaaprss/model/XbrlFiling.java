@@ -1,5 +1,6 @@
 package parser.sec.gaaprss.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class XbrlFiling {
     private String assistantDirector;
     private String assignedSic;
     private String fiscalYearEnd;
-    private List<XbrlFile> xbrlFiles;
+    private List<XbrlFile> xbrlFiles = new ArrayList<>();
 
     public String getCompanyName() {
         return companyName;
