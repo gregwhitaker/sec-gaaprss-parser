@@ -8,6 +8,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import parser.sec.gaaprss.model.Enclosure;
 import parser.sec.gaaprss.model.Feed;
 import parser.sec.gaaprss.model.Item;
+import parser.sec.gaaprss.model.XbrlFile;
 import parser.sec.gaaprss.model.XbrlFiling;
 
 import javax.xml.parsers.SAXParser;
@@ -34,13 +35,12 @@ public class GaapRssParser extends DefaultHandler {
         parser.parse(RSS_URL, handler);
 
         Feed feed = handler.getParsedFeed();
-        boolean test = true;
     }
 
     private final Feed feed = new Feed();
 
-    private String temp;
     private boolean processingItem = false;
+    private String temp;
     private Item tempItem;
 
     @Override
@@ -62,6 +62,24 @@ public class GaapRssParser extends DefaultHandler {
 
             if (qName.equalsIgnoreCase("edgar:xbrlFiling")) {
                 tempItem.setXbrlFiling(new XbrlFiling());
+            }
+
+            if (qName.equalsIgnoreCase("edgar:xbrlFile")) {
+                XbrlFile xbrlFile = new XbrlFile();
+                xbrlFile.setSequence(Integer.parseInt(attributes.getValue("edgar:sequence")));
+                xbrlFile.setFile(attributes.getValue("edgar:file"));
+                xbrlFile.setType(attributes.getValue("edgar:type"));
+                xbrlFile.setSize(Long.parseLong(attributes.getValue("edgar:size")));
+                xbrlFile.setDescription(attributes.getValue("edgar:description"));
+                xbrlFile.setUrl(attributes.getValue("edgar:url"));
+
+                if (attributes.getValue("edgar:inlineXBRL") != null && !attributes.getValue("edgar:inlineXBRL").isEmpty()) {
+                    xbrlFile.setInlineXbrl(Boolean.parseBoolean(attributes.getValue("edgar:inlineXBRL")));
+                } else {
+                    xbrlFile.setInlineXbrl(false);
+                }
+
+                tempItem.getXbrlFiling().getXbrlFiles().add(xbrlFile);
             }
         }
     }
