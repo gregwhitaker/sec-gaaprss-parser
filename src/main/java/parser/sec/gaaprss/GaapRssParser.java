@@ -14,7 +14,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * SAX parser for the Securities and Exchange Commissions GAAP Filings RSS feed.
@@ -34,7 +33,7 @@ public class GaapRssParser extends DefaultHandler {
         LOG.info("Parsing: {}", RSS_URL);
         parser.parse(RSS_URL, handler);
 
-        Feed feed = handler.getFeed();
+        Feed feed = handler.getParsedFeed();
         boolean test = true;
     }
 
@@ -59,6 +58,10 @@ public class GaapRssParser extends DefaultHandler {
                 enclosure.setType(attributes.getValue("type"));
 
                 tempItem.setEnclosure(enclosure);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:xbrlFiling")) {
+                tempItem.setXbrlFiling(new XbrlFiling());
             }
         }
     }
@@ -139,6 +142,56 @@ public class GaapRssParser extends DefaultHandler {
                     throw new SAXException("Unable to parse item pubDate: " + temp, e);
                 }
             }
+
+            if (qName.equalsIgnoreCase("edgar:companyName")) {
+                tempItem.getXbrlFiling().setCompanyName(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:formType")) {
+                tempItem.getXbrlFiling().setFormType(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:filingDate")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+                try {
+                    tempItem.getXbrlFiling().setFilingDate(sdf.parse(temp));
+                } catch (ParseException e) {
+                    throw new SAXException("Unable to parse edgar:filingDate: " + tempItem, e);
+                }
+            }
+
+            if (qName.equalsIgnoreCase("edgar:cikNumber")) {
+                tempItem.getXbrlFiling().setCikNumber(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:accessionNumber")) {
+                tempItem.getXbrlFiling().setAccessionNumber(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:fileNumber")) {
+                tempItem.getXbrlFiling().setFileNumber(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:acceptanceDatetime")) {
+                tempItem.getXbrlFiling().setAcceptanceDateTime(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:period")) {
+                tempItem.getXbrlFiling().setPeriod(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:assistantDirector")) {
+                tempItem.getXbrlFiling().setAssistantDirector(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:assignedSic")) {
+                tempItem.getXbrlFiling().setAssignedSic(temp);
+            }
+
+            if (qName.equalsIgnoreCase("edgar:fiscalYearEnd")) {
+                tempItem.getXbrlFiling().setFiscalYearEnd(temp);
+            }
         }
     }
 
@@ -147,7 +200,7 @@ public class GaapRssParser extends DefaultHandler {
         this.temp = new String(ch, start, length);
     }
 
-    public Feed getFeed() {
+    public Feed getParsedFeed() {
         return this.feed;
     }
 }
