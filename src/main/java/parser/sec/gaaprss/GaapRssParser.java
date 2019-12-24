@@ -35,6 +35,8 @@ public class GaapRssParser extends DefaultHandler {
         parser.parse(RSS_URL, handler);
 
         Feed feed = handler.getParsedFeed();
+
+        LOG.info("Parsing complete!");
     }
 
     private final Feed feed = new Feed();
