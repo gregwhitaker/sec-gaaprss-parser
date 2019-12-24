@@ -1,5 +1,5 @@
 # sec-gaaprss-parser
-SAX parser for the Securities and Exchange Commissions GAAP Filings RSS feed.
+SAX parser for the Securities and Exchange Commission GAAP Filings RSS feed.
 
 ## License
 Copyright (C) 2019 Greg Whitaker
