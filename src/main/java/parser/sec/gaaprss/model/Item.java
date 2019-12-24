@@ -1,4 +1,4 @@
 package parser.sec.gaaprss.model;
 
-public class Filing {
+public class Item {
 }
