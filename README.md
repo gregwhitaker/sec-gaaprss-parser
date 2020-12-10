@@ -1,4 +1,6 @@
 # sec-gaaprss-parser
+![Build](https://github.com/gregwhitaker/sec-gaaprss-parser/workflows/Build/badge.svg)
+
 SAX parser for the Securities and Exchange Commission GAAP Filings RSS feed.
 
 ## License
